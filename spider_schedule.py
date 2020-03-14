@@ -7,7 +7,6 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
 import time
-import datetime
 from login import spider_deal
 from bs4 import BeautifulSoup
 import requests
@@ -204,7 +203,7 @@ def get_schedule(res):
                     class_room = ''
                     teacher = ''
                     # course = td.getText()
-                print(tdate)
+                # print(tdate)
                 course_dict = {
                     "month_time": month,
                     "date_time": tdate,
@@ -227,13 +226,14 @@ def get_schedule(res):
                     # print(week_dict)
                     week_dict.update(day_dict)
                     # print(week_dict)
-                if tdate < 29:
-                    tdate += 1
-                else:
-                    if day + coursetime_end < 8:
+                if day != 0:
+                    if tdate < 29:
                         tdate += 1
                     else:
-                        tdate = 1
+                        if day + coursetime_end < 8:
+                            tdate += 1
+                        else:
+                            tdate = 1
                 day_list = []
                 day += 1
                # tdate = str(int(tdate)+1).zfill(2)

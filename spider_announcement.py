@@ -38,7 +38,7 @@ def getAnnouncement():
         resp = requests.get(url_Announce, headers=headers)
         resp.encoding = 'utf-8'
         soup = BeautifulSoup(resp.text, 'lxml')
-        time.sleep(2)
+        time.sleep(0.5)
 
         # http://www.aao.cdut.edu.cn/info/1171/3046.htm
         # announce_sum = []
