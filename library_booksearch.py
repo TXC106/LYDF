@@ -70,19 +70,29 @@ def searchBooks(bookname):
     # 尝试去除首行输入
     # soup = BeautifulSoup(url_resp.text, 'lxml')
     # res = ''
-    # for div in soup.find_all('div', class_='http://www.lib.cdut.edu.cn/p-searchList'):
-    #     res += div.text
+    # for div in soup.find('div', class_='jp-mainCenter').findAll('div'):
+    #     res += str(div)
+    # print(res)
+    # exit()
 
     # print(div)
     # print(type(div))
+
+    # 更换链接
     head_line = 'http://www.lib.cdut.edu.cn/'
-    html_search = re.sub(r'(?<==").', head_line, div)
+    # html_search = re.sub(r'(?<==").', head_line, div)
+    html_search = re.sub(r'(?<=src=\").', head_line, div)
     # print(html_search)
     # exit()
-    delete_info = '(<strong>出版信息：</strong>.*?</p>)(?:[/s/S]*?)(</li>)'
-    new_html_search = re.sub(r'(<strong>出版信息：</strong>.*?</p>)(?:[\s\S]*?)(</li>)', r'\1\2', html_search)
+
+    # 去除多余信息
+    delete_info = r'(<strong>出版信息：</strong>.*?</p>)(?:[\s\S]*?)(</li>)'
+    new_html_search = re.sub(delete_info, r'\1\2', html_search)
     # new_html_search = re.findall(delete_info, html_search)
-    return new_html_search
+
+    # 去除输入框
+    html_text = re.sub(r'<input.*?/>', '', new_html_search)
+    return html_text
     # print(div)
     # exit()
     # result = {
