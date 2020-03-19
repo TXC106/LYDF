@@ -306,7 +306,7 @@ def mainFunc(mainHtml):
 
 
 if __name__ == "__main__":
-    print(searchBooks('软件工程'))
+    searchBooks('软件工程')
     exit()
     # str = 'www.a/'
     str = '<strong>出版信息：</strong>四川文艺出版社  2018.09  成都</p><div id="http://www.lib.cdut.edu.cn/book2665025"></li>'

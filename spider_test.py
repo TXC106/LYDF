@@ -140,10 +140,10 @@ def Reserve():
     return getReserved()
 
 
-@app.route('/booksearch', methods=['post'])
-def SearchBooks():
-    bookname = request.values.get('bname', 0)
-    return searchBooks(bookname)
+# @app.route('/booksearch', methods=['post'])
+# def SearchBooks():
+#     bookname = request.values.get('bname', 0)
+#     return searchBooks(bookname)
 
 
 @app.route('/lib_record', methods=['post'])
