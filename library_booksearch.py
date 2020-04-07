@@ -207,28 +207,44 @@ global mainHtmlText
 # html_file_new = 'C:/Users/kiwi/Desktop/test2.html'
 
 
+def RecvN(socket, n):
+    totalContent = b''
+    totalRecved = 0
+    while totalRecved < n:
+        onceContent = socket.recv(n - totalRecved)
+        print("onceContent", onceContent)
+        totalContent += onceContent
+        totalRecved = len(totalContent)
+
+    return totalContent
+
+
 def handle_client(client_socket, mainHtml):
     # 接收对方发送的数据
     recv_data = client_socket.recv(1024).decode("utf-8")  # 1024表示本次接收的最大字节数
+    # recv_data = RecvN(client_socket, 1024).decode('utf-8')
     # 打印从客户端发送过来的数据内容
     # print("client_recv:",recv_data)
     request_header_lines = recv_data.splitlines()
+    print("recv_ok")
     for line in request_header_lines:
         print(line)
-    while request_header_lines == []:
-        time.sleep(1)
+    # if request_header_lines == []:
+    #     # time.sleep(2)
+    #     response_body = mainHtml
+        # handle_client(client_socket, mainHtml)
 
     # 返回浏览器数据
     # 设置返回的头信息 header
     response_headers = "HTTP/1.1 200 OK\r\n"  # 200 表示找到这个资源
     response_headers += "\r\n"  # 空一行与body隔开
-    # 设置内容body
+    # 设置内容bodys
     # response_body = "<h1>fat boss<h1>\r\n"
     # response_body += "<h2>come on<h2>\r\n"
     # response_body += "<h3>binlang!!!<h3>\r\n"
 
     # 跳转链接获取
-
+    # if request_header_lines != []:
     mainPage = re.match('[^/]+(/[^ ]*)', request_header_lines[0])
     # print(mainPage.group(1) == '/')
     searchPage = re.match('[^/]+(/opac/search[^ ]*)', request_header_lines[0])
@@ -262,11 +278,13 @@ def handle_client(client_socket, mainHtml):
             # file = open(html_file, 'rb')
             # response_body = file.read()
             # file.close()
+            # print(mainHtml)
             response_body = mainHtml
         else:
             # file = open(html_file, 'rb')
             # response_body = file.read()
             # file.close()
+            # print("2\n"+mainHtml)
             response_body = mainHtml
     if(newPage != None):
         # html_file = 'C:\\Users\\kiwi\\Desktop\\test2.html'
@@ -275,6 +293,9 @@ def handle_client(client_socket, mainHtml):
         # response_body = file.read()
         # file.close()
         response_body = newHtml
+    # else:
+    #     # response_body = mainHtml
+    #     time.sleep(2)
 
 
     # 合并返回的response数据
@@ -282,9 +303,11 @@ def handle_client(client_socket, mainHtml):
     # response = response_headers + response_body
 
     # 返回数据给浏览器
+    # print(response_body)
     client_socket.send(response_headers.encode("utf-8"))  # 转码utf-8并send数据到浏览器
     client_socket.send(response_body.encode("utf-8"))
     client_socket.close()
+    # print("closeok")
 
 
 def mainFunc(mainHtml):
@@ -301,8 +324,10 @@ def mainFunc(mainHtml):
         # 如果有新的客户端来链接服务端，那么就产生一个新的套接字专门为这个客户端服务
         # client_socket用来为这个客户端服务
         # server_socket就可以省下来专门等待其他新的客户端连接while True:
+        # print("circle")
         client_socket, clientAddr = server_socket.accept()
         handle_client(client_socket, mainHtml)
+        # print("circle_end")
 
 
 if __name__ == "__main__":

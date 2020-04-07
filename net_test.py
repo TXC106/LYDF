@@ -34,25 +34,25 @@ def handle_client(client_socket, mainHtml):
     iconPage = re.match('[^/]+(/[^.ico]*)', request_header_lines[0])
     newPage = re.match('[^/]+(/opac/book[^ ]*)', request_header_lines[0])
     head_line = 'http://www.lib.cdut.edu.cn'
-    # if(mainPage == '/'):
-    #     response_body = mainHtml
-    # if(searchPage != None or iconPage != None):
-    #     # print(re.match('[^/]+(/opac/[^ ]*)', request_header_lines[0]).group(1))
-    #     # print()
-    #     # html_file = 'C:\\Users\\kiwi\\Desktop\\test.html'
-    #     # file = open(html_file, 'rb')
-    #     # response_body = file.read()
-    #     # file.close()
-    #     if(searchPage != None):
-    #         mainHtml = searchPages(head_line + searchPage)
-    #         response_body = mainHtml
-    # if(newPage != None):
-    #     # html_file = 'C:\\Users\\kiwi\\Desktop\\test2.html'
-    #     # file = open(html_file, 'rb')
-    #     # response_body = file.read()
-    #     # file.close()
-    #     newHtml = searchPages(head_line + newPage)
-    #     response_body = newHtml
+    if(mainPage == '/'):
+        response_body = mainHtml
+    if(searchPage != None or iconPage != None):
+        # print(re.match('[^/]+(/opac/[^ ]*)', request_header_lines[0]).group(1))
+        # print()
+        # html_file = 'C:\\Users\\kiwi\\Desktop\\test.html'
+        # file = open(html_file, 'rb')
+        # response_body = file.read()
+        # file.close()
+        if(searchPage != None):
+            mainHtml = searchPages(head_line + searchPage)
+            response_body = mainHtml
+    if(newPage != None):
+        # html_file = 'C:\\Users\\kiwi\\Desktop\\test2.html'
+        # file = open(html_file, 'rb')
+        # response_body = file.read()
+        # file.close()
+        newHtml = searchPages(head_line + newPage)
+        response_body = newHtml
 
 
     # 合并返回的response数据
@@ -83,8 +83,45 @@ def mainFunc(mainHtml):
         handle_client(client_socket, mainHtml)
 
 
+def getType(a, b, c):
+    minInput = min(a, b, c)
+    maxInput = max(a, b, c)
+    # type = []
+    if minInput == maxInput:
+        type = 1
+    else:
+        type = 0
+    for i in a, b, c:
+        if i+minInput > maxInput:
+            if i == minInput or i == maxInput:
+                type += 1
+                # if minInput == maxInput:
+                #     type.append(3)
+        else:
+            type += 0
+    typeName = {
+        0: "非三角形",
+        1: "非三角形",
+        2: "等腰三角形",
+        3: "等腰三角形",
+        4: "等边三角形"
+    }
+    print(typeName.get(type))
+
+
+
+
 if __name__ == "__main__":
-    mainFunc()
+    # mainFunc()
     # searchBooks('计算机')
     # handle_client()
+    while 1:
+        a = input("a:")
+        if a == '#':
+            exit()
+        a = int(a)
+        b = int(input("b:"))
+        c = int(input("c:"))
+        getType(a, b, c)
+
 
